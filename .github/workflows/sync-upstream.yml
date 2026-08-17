@@ -1,0 +1,37 @@
+name: sync-upstream
+
+on:
+  schedule:
+    - cron: '0 6 * * 1'   # weekly, Monday 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: dev
+
+      - name: Add upstream remote
+        run: |
+          git remote add upstream ${{ vars.UPSTREAM_URL }}
+          git fetch upstream
+
+      - name: Merge upstream into dev
+        run: |
+          git checkout dev
+          git merge upstream/${{ vars.UPSTREAM_BRANCH }} --no-edit || true
+
+      - name: Open PR if changes staged
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: sync/upstream-${{ github.run_number }}
+          title: "chore: sync from upstream"
+          body: "Automated sync from ${{ vars.UPSTREAM_URL }}@${{ vars.UPSTREAM_BRANCH }}. Review the diff before merging to dev."
+          base: dev
