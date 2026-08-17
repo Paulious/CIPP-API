@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest   # switched from windows-latest: codeload.github.com was persistently 429/503-ing action downloads on the Windows runner pool; pwsh + Azure/functions-action work fine on Linux
     environment: test   # rg-cipp-prod doesn't exist yet — switch to "prod" once it's deployed
     steps:
       - uses: actions/checkout@v4
