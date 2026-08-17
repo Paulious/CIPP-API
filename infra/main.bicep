@@ -102,7 +102,7 @@ resource kv 'Microsoft.KeyVault/vaults@2023-07-01' = {
       {
         tenantId: subscription().tenantId
         objectId: funcApp.identity.principalId
-        permissions: { secrets: ['get', 'list'] }
+        permissions: { secrets: ['get', 'list', 'set', 'delete'] }
       }
     ]
   }
