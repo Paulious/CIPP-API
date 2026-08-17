@@ -12,7 +12,7 @@ permissions:
 jobs:
   deploy:
     runs-on: windows-latest
-    environment: prod   # or "test" on a branch-scoped trigger
+    environment: test   # rg-cipp-prod doesn't exist yet — switch to "prod" once it's deployed
     steps:
       - uses: actions/checkout@v4
 
