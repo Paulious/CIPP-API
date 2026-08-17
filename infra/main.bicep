@@ -13,6 +13,10 @@ param environmentName string = 'test'
 
 param location string = resourceGroup().location
 
+@description('Static Web Apps is only available in a limited set of regions, independent of the resource group location')
+@allowed(['centralus', 'eastus2', 'westus2', 'westeurope', 'eastasia'])
+param swaLocation string = 'westeurope'
+
 var suffix        = toLower(substring(uniqueString(resourceGroup().id, environmentName), 0, 5))
 var funcAppName   = toLower('${baseName}${environmentName}${suffix}')
 var storageName   = toLower('${take(baseName, 12)}st${suffix}')
@@ -106,7 +110,7 @@ resource kv 'Microsoft.KeyVault/vaults@2023-07-01' = {
 
 resource swa 'Microsoft.Web/staticSites@2023-01-01' = {
   name: swaName
-  location: location
+  location: swaLocation
   sku: { name: 'Standard', tier: 'Standard' }
   properties: {
     repositoryUrl: githubRepository
