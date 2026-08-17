@@ -82,7 +82,7 @@ resource funcApp 'Microsoft.Web/sites@2023-01-01' = {
         { name: 'FUNCTIONS_WORKER_RUNTIME', value: 'powershell' }
         { name: 'WEBSITE_RUN_FROM_PACKAGE', value: '1' }
         { name: 'APPLICATIONINSIGHTS_CONNECTION_STRING', value: appInsights.properties.ConnectionString }
-        { name: 'KEYVAULT_NAME', value: kvName }
+        { name: 'CIPP_KV_NAME', value: kvName }
       ]
     }
   }
